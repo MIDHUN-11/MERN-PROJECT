@@ -3,6 +3,11 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 export const register =async (request,response)=>{
     const userData = request.body;
+    const userEmail = userData.email;
+    if(await User.findOne({email:userEmail})){
+        response.status(400).send("email already registered");
+        return;// bcoz we should not proceed from here after the error
+    }
     userData.password=await bcrypt.hash(userData.password,10);
     const data=await User.create(userData);
     response.status(200).send({status: true,message:"successfully registered"});
@@ -12,6 +17,7 @@ export const login =async (request,response)=>{
     const userData = await User.findOne({email}).select('+password');
     if(!userData){
         response.status(401).send({status:false,message:"Invalid credentials"});
+        return;// bcoz we should not proceed from here after the error
     }
     //Generte JWT token
     const jwtToken = await userData.generateJWTToken();
