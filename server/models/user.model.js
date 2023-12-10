@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
 // import { Jwt } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
-
+import { config } from "dotenv";
+config();
 const UserSchema = new Schema({
     name:{
         type:String,
@@ -37,11 +38,15 @@ const UserSchema = new Schema({
 });
 UserSchema.methods ={
     generateJWTToken:function(){// we cant  use arrow function bcoz it has something to do wih this keyword
-        return JsonWebTokenError.sign(
+        // return JsonWebTokenError.sign(
+            // console.log(process.env.JWT_EXPIRY,);
+            return jwt.sign(
             {id:this._id},
-            process.env.JWR_PASSWORD,
+            process.env.JWT_PASSWORD,
             {
+                
                 expiresIn:process.env.JWT_EXPIRY
+                // expiresIn:"2h"
             }
         )
     }

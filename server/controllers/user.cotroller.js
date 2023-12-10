@@ -1,5 +1,6 @@
 import User from '../models/user.model.js'
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 export const register =async (request,response)=>{
     const userData = request.body;
     userData.password=await bcrypt.hash(userData.password,10);
@@ -27,5 +28,7 @@ export const getProfile =async (request,response)=>{
     const {token} = request.cookies;
     const tokenDetails = jwt.verify(token,process.env.JWT_PASSWORD);
     const userDetail = await User.findById(tokenDetails.id);
+    // const userId = request.user.id;
+    // const userDetail = await User.findById(userId);
     response.status(200).send(userDetail);
 }
