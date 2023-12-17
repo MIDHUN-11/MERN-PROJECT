@@ -1,16 +1,41 @@
 import { Schema, model } from "mongoose";
 
 const MovieSchema = new Schema({
-    title:String,
-    description:String,
-    bannerImage:String,
-    trailerVideo:String,
+    title:{
+        type:String,
+        required:true,
+    },
+    description:{
+        type:String,
+        required:true,
+    },
+    bannerImage:{
+        type:String,
+        required:true,
+    },
+    trailerVideo:{
+        type:String,
+        required:true,
+    },
     rating:Number,
-    casts:[{name:String,image:String}],
+    casts:[{
+        type: String,
+        image: String,
+        required: true,
+    }],
     duration: Number,
-    genre:Enumerator,
+    genre:{
+        type: String,
+        enum: ['Drama','Thriller','Horror','Fictinal','Comedy'],
+        required: true,
+    },
     releaseDate: Date,
-    // language:enum[],
+    language:[{
+        type: String,
+        enum:['Tamil','English','Malayalam','Himdi','Kannada'],
+        required: true,
+    }]
+  
 })
 
 const Movie = new model('movie',MovieSchema);
