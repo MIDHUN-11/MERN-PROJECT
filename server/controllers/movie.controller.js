@@ -1,9 +1,9 @@
-import Movie from "../models/movie.model";
+import Movie from "../models/movie.model.js";
 
 export const createMovie=async (request,response)=>{
     const movieData = request.body;
     try{
-        const data = await Movie.creeate(movieData);
+        const data = await Movie.create(movieData);
         response.status(200).send(data);
     }
     catch(e){
